@@ -1,27 +1,29 @@
-name: 'Weather Bot'
+name: '天气机器人' # workflow的名称
 
 on:
   push:
   schedule:
-    - cron: '0 8 * * *'
+    - cron: '0 0 * * *' # 定时任务，运行时间为每天的早上8点，第二个0表示国际时间0点
 
 jobs:
-  bot:
-    runs-on: ubuntu-latest
+  bot: # 任务名称，这里仅一个任务
+    runs-on: ubuntu-latest # 运行所用的虚拟机环境
     steps:
+      - name: 'Checkout codes' # 步骤名称
+        uses: actions/checkout@v1 # 首先copy仓库到虚拟机上，不可少
       - name: 'Get Weather'
-        run: bash ./weather.sh
+        run: bash ./weather.sh  # 运行仓库中的bash脚本
       - name: 'Get Date'
-        run: echo "REPORT_DATE=$(TZ=':Asia/Shanghai' date '+%Y-%m-%d %T')" >> $GITHUB_ENV
+        run: echo "REPORT_DATE=$(TZ=':Asia/Shanghai' date '+%Y-%m-%d %T')" >> $GITHUB_ENV # 获取格式化日期，并存入内置环境变量
       - name: 'Send mail'
-        uses: dawidd6/action-send-mail@master
+        uses: dawidd6/action-send-mail@master # 发送邮件的action
         with:
           server_address: smtp.qq.com
           server_port: 465
-          username: ${{ secrets.MAIL_USERNAME }}
+          username: ${{ secrets.MAIL_USERNAME }} # 设置的secrets，路径：settings->secrets
           password: ${{ secrets.MAIL_PASSWORD }}
-          subject: 天气预报 (${{env.REPORT_DATE}})
-          body: file://result.html
-          to: shingu@qq.com
-          from: GitHub Actions
+          subject: 天气预报 (${{env.REPORT_DATE}}) # 邮件主题，用到了环境变量中的REPORT_DATE
+          body: file://result.html # 上面bash脚本生成的文件
+          to: shingu@qq.com # 接收邮箱地址
+          from: GitHub Actions # 自定义发送者
           content_type: text/html
