@@ -23,8 +23,7 @@ jobs:
           username: ${{ secrets.MAIL_USERNAME }} # 设置的secrets，路径：settings->secrets
           password: ${{ secrets.MAIL_PASSWORD }}
           subject: 天气预报 (${{env.REPORT_DATE}}) # 邮件主题，用到了环境变量中的REPORT_DATE
-          #html_body: file://result.html # 上面bash脚本生成的文件
-          html_body:"<img src='./Wuxing.png'></img>"
+          html_body: file://result.html # 上面bash脚本生成的文件
           to: shingu@qq.com # 接收邮箱地址
           from: GitHub Actions # 自定义发送者
           content_type: text/html

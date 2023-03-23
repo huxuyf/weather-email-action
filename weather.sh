@@ -8,3 +8,4 @@ CITY=Wuxing
 
 # curl -H "Accept-Language: $LANGUAGE" -H "User-Agent: $UA" -o result.html https://wttr.in/$CITY
 curl -H "Accept-Language:$LANGUAGE" -H "User-Agent:$UA" https://wttr.in/$CITY.png > $CITY.png
+echo "<img src='./Wuxing.png'></img>" > result.html
