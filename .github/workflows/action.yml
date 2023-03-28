@@ -26,5 +26,5 @@ jobs:
           html_body: file://result.html # 上面bash脚本生成的文件
           to: shingu@qq.com # 接收邮箱地址
           from: GitHub Actions # 自定义发送者
-          content_type: text/html
+          #content_type: text/html
           attachments: ./Wuxing.png
